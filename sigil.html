@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#030404">
+<meta name="description" content="Write a name and watch its sigil take shape. Every name draws its own seal.">
+<title>Sigil Forge — Ars Goetica</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23030404'/%3E%3Cpath d='M50 9 88 81 75 81 50 31 25 81 12 81Z' fill='%23d5d0c7'/%3E%3Ccircle cx='50' cy='68' r='5' fill='%23d5d0c7'/%3E%3C/svg%3E">
+<style>
+:root{color-scheme:dark;--bg:#030404;--paper:#dedbd5;--muted:#888986;--dim:#5f605c;--line:rgba(226,222,211,.15);--gold:#c9bfa8;--font-display:"Bodoni Moda","Didot","Iowan Old Style","Baskerville","Times New Roman",serif;--font-ui:Inter,"Helvetica Neue",Arial,sans-serif}
+*,*::before,*::after{box-sizing:border-box}
+html,body{min-height:100%}
+body{margin:0;background:radial-gradient(ellipse at 50% 38%,#12110e 0%,var(--bg) 62%);background-color:var(--bg);color:var(--paper);font-family:var(--font-ui);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+::selection{background:#bdb7aa;color:#0b0b0b}
+a{color:inherit;text-decoration:none}
+button{font:inherit}
+.site-head{height:90px;padding:0 clamp(16px,4.5vw,78px);display:flex;justify-content:space-between;align-items:center}
+.brand{display:flex;align-items:center;gap:12px;font-size:12px;letter-spacing:.19em;font-weight:700;white-space:nowrap}
+.brand-mark{display:grid;place-items:center;width:29px;height:29px;border:1px solid #aaa79d8a;transform:rotate(45deg);font-size:12px;line-height:1}
+.brand-mark span{transform:rotate(-45deg)}
+.back{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:#c1beb7;transition:color .2s}
+.back:hover,.back:focus-visible{color:#fff}
+
+main{max-width:1180px;margin:0 auto;padding:0 clamp(16px,4.5vw,48px) 80px;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(32px,6vw,90px);align-items:center;min-height:calc(100svh - 90px)}
+.eyebrow{font-size:10px;letter-spacing:.32em;text-transform:uppercase;color:var(--muted);margin:0 0 18px}
+h1{font-family:var(--font-display);font-weight:400;font-size:clamp(40px,6vw,76px);line-height:.95;letter-spacing:-.01em;margin:0 0 18px}
+.lede{color:#a9a69f;font-size:15px;line-height:1.6;max-width:420px;margin:0 0 36px}
+
+.stage{position:relative;aspect-ratio:1;width:100%;max-width:560px;justify-self:center;display:grid;place-items:center}
+.stage::before{content:"";position:absolute;inset:8%;border-radius:50%;background:radial-gradient(circle,rgba(211,193,150,.10),transparent 68%);filter:blur(8px)}
+.sigil{position:relative;width:100%;height:100%;color:var(--gold);transition:opacity .25s ease;filter:drop-shadow(0 0 26px rgba(211,193,150,.16))}
+.sigil svg{width:100%;height:100%;display:block}
+.sigil svg circle,.sigil svg path,.sigil svg line{vector-effect:non-scaling-stroke}
+.sigil.empty{opacity:.18}
+.stage-name{position:absolute;bottom:-6px;left:0;right:0;text-align:center;font-family:var(--font-display);font-size:clamp(18px,2.2vw,24px);letter-spacing:.08em;color:#d8d2c4;min-height:1.2em;overflow-wrap:anywhere}
+
+.field{position:relative;margin-bottom:34px}
+.field label{display:block;font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.field input{width:100%;min-width:0;background:transparent;border:0;border-bottom:1px solid #4a4944;color:var(--paper);font-family:var(--font-display);font-size:clamp(28px,3.6vw,42px);padding:6px 0 12px;outline:none;transition:border-color .2s}
+.field input::placeholder{color:#3d3d3a}
+.field input:focus{border-bottom-color:var(--gold)}
+
+.traits{list-style:none;margin:0 0 34px;padding:0;border-top:1px solid var(--line)}
+.traits li{display:grid;grid-template-columns:1fr auto;gap:16px;padding:12px 0;border-bottom:1px solid var(--line);font-size:13px}
+.traits .from{color:var(--muted)}
+.traits .from b{color:#d6d1c6;font-weight:500;font-variant-numeric:tabular-nums}
+.traits .to{color:var(--gold);text-align:right;letter-spacing:.04em}
+
+.actions{display:flex;gap:12px;flex-wrap:wrap}
+.btn{border:1px solid #57554f;background:transparent;color:#d6d1c6;padding:12px 18px;font-size:10px;letter-spacing:.24em;text-transform:uppercase;cursor:pointer;transition:border-color .2s,color .2s,background .2s}
+.btn:hover:not(:disabled),.btn:focus-visible{border-color:var(--gold);color:#fff;background:rgba(201,191,168,.06)}
+.btn:disabled{opacity:.35;cursor:default}
+.toast{font-size:11px;letter-spacing:.14em;color:var(--muted);align-self:center;min-height:1em}
+
+@media (max-width:860px){
+  main{grid-template-columns:minmax(0,1fr);gap:28px;padding-top:8px}
+  .stage{max-width:min(420px,100%);order:-1}
+  .lede{margin-bottom:26px}
+}
+@media (max-width:640px){
+  .site-head{height:72px}
+  .brand{font-size:10px;gap:10px}.brand-mark{width:25px;height:25px}
+  main{min-height:0}
+}
+@media (prefers-reduced-motion:reduce){.sigil{transition:none}}
+</style>
+</head>
+<body>
+<header class="site-head">
+  <a class="brand" href="./" aria-label="Ars Goetica — home"><span class="brand-mark" aria-hidden="true"><span>✦</span></span><span>ARS / GOETICA</span></a>
+  <a class="back" href="./#projects">← Entities</a>
+</header>
+
+<main>
+  <div class="stage">
+    <div class="sigil empty" id="sigil" role="img" aria-label="Sigil preview"></div>
+    <div class="stage-name" id="stage-name" aria-hidden="true"></div>
+  </div>
+
+  <section aria-labelledby="forge-title">
+    <p class="eyebrow">The Sigil Forge</p>
+    <h1 id="forge-title">Every name<br>draws its seal.</h1>
+    <p class="lede">Write a name. Its letters, words and vowels shape the sigil. The same name always returns the same seal.</p>
+
+    <div class="field">
+      <label for="name">Name</label>
+      <input id="name" type="text" autocomplete="off" spellcheck="false" maxlength="48" placeholder="Solomon">
+    </div>
+
+    <ul class="traits" id="traits" aria-live="polite"></ul>
+
+    <div class="actions">
+      <button class="btn" id="download" type="button" disabled>Download SVG</button>
+      <button class="btn" id="copy" type="button" disabled>Copy link</button>
+      <span class="toast" id="toast" role="status"></span>
+    </div>
+  </section>
+</main>
+
+<script src="assets/sigil.js"></script>
+<script>
+(() => {
+  const input = document.getElementById('name');
+  const sigil = document.getElementById('sigil');
+  const stageName = document.getElementById('stage-name');
+  const traits = document.getElementById('traits');
+  const download = document.getElementById('download');
+  const copy = document.getElementById('copy');
+  const toast = document.getElementById('toast');
+  const PLACEHOLDER = 'Solomon';
+
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`;
+
+  function rows(t) {
+    return [
+      [`<b>${t.letters}</b> letters`, plural(t.spokes, 'spoke')],
+      [`<b>${esc(t.firstChar)}</b> … <b>${esc(t.lastChar)}</b>`, `${t.core} core`],
+      [`<b>${t.vowels}</b> vowels`, t.ornament === 'none' ? 'bare inner ring' : t.ornament],
+      [`<b>${t.words}</b> ${t.words === 1 ? 'word' : 'words'}`, plural(t.halos, 'halo')],
+      [`letters are <b>${t.letters % 2 ? 'odd' : 'even'}</b>`, t.allNodes ? 'node on every spoke' : 'node on every other spoke'],
+      [`name hash`, `turned ${t.rotation}°`],
+    ];
+  }
+
+  function render() {
+    const typed = input.value.trim();
+    const name = typed || PLACEHOLDER;
+    const t = sigilTraits(name);
+    sigil.innerHTML = sigilFor(name);
+    sigil.classList.toggle('empty', !typed);
+    stageName.textContent = typed;
+    traits.innerHTML = rows(t).map(([from, to]) => `<li><span class="from">${from}</span><span class="to">${esc(to)}</span></li>`).join('');
+    download.disabled = copy.disabled = !typed;
+    toast.textContent = '';
+
+    const url = new URL(location.href);
+    if (typed) url.searchParams.set('name', typed); else url.searchParams.delete('name');
+    history.replaceState(null, '', url);
+  }
+
+  function flash(msg) {
+    toast.textContent = msg;
+    clearTimeout(flash.t);
+    flash.t = setTimeout(() => { toast.textContent = ''; }, 1800);
+  }
+
+  download.addEventListener('click', () => {
+    const name = input.value.trim();
+    if (!name) return;
+    const svg = sigilFor(name)
+      .replace('<svg ', '<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" style="color:#c9bfa8;background:#030404" ');
+    const blob = new Blob([svg], { type: 'image/svg+xml' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `sigil-${name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'name'}.svg`;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  });
+
+  copy.addEventListener('click', async () => {
+    try { await navigator.clipboard.writeText(location.href); flash('Link copied'); }
+    catch { flash('Copy failed — use the address bar'); }
+  });
+
+  input.value = new URLSearchParams(location.search).get('name') || '';
+  input.addEventListener('input', render);
+  render();
+  if (!input.value) input.focus();
+})();
+</script>
+</body>
+</html>
