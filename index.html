@@ -9,6 +9,13 @@
 <meta property="og:description" content="Not a collection of tools. An ecosystem waiting to be summoned.">
 <title>ARS GOETICA — The Order Is Assembling</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23030404'/%3E%3Cpath d='M50 9 88 81 75 81 50 31 25 81 12 81Z' fill='%23d5d0c7'/%3E%3Ccircle cx='50' cy='68' r='5' fill='%23d5d0c7'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Inter:wght@400;600;700&display=swap">
+<!--
+  DOSSIER 072-Σ · CIRCLE III · EYES ONLY
+  GSV LIWVI RH ZHHVNYORMT. HKVZP GSV MZNV, ZMW RG DROO ZMHDVI.
+-->
 <style>
 :root{color-scheme:dark;--bg:#030404;--paper:#dedbd5;--muted:#888986;--line:rgba(226,222,211,.15);--silver:#c5c0b8;--font-display:"Bodoni Moda","Didot","Iowan Old Style","Baskerville","Times New Roman",serif;--font-ui:Inter,"Helvetica Neue",Arial,sans-serif;--stage-progress:0;--img-opacity:0;--img-light:.36;--img-scale:1.25;--ring-opacity:0;--ring-spin:0deg;--title-opacity:0;--title-y:90px;--intro-opacity:1;--cue-opacity:1;--pointer-x:0px;--pointer-y:0px}
 *,*::before,*::after{box-sizing:border-box}
@@ -161,6 +168,49 @@ button{font:inherit}
 @media(max-width:640px){.project-card{min-height:360px}.project-card .project-glyph{top:70px;right:8%;width:46%}.project-more{padding-top:17px;margin-top:17px}.dialog-body{padding:10px 24px 30px}.dialog-head{padding:19px 24px}.dialog-glyph{height:145px}.dialog-glyph svg{width:145px;height:145px}.dialog-status-end{font-size:8px}}
 @media(hover:none){.project-card:hover{transform:none}.project-card::after{opacity:.3}}
 @media(prefers-reduced-motion:reduce){.seal-pulse,.seal-pulse span,.project-status::before,.status-dot{animation:none!important}.entity-dialog{animation:none!important}.hero-flashlight{display:none}.project-card:hover{transform:none!important}}
+
+/* v3 — no overlapping glyphs, classified layer */
+:root{--blood:#9b2c2c;--blood-glow:#c0392b55}
+/* header: solid veil once content scrolls beneath it */
+.site-head{transition:background .35s,border-color .35s,backdrop-filter .35s;border-bottom:1px solid transparent}
+.site-head.is-scrolled{background:linear-gradient(180deg,rgba(3,4,4,.94),rgba(3,4,4,.82));backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom-color:var(--line)}
+/* display type: positive tracking, open leading — letters never touch */
+.hero-title{font-size:clamp(66px,13vw,220px);line-height:.92;letter-spacing:calc(.015em + var(--title-space));transform:none;text-shadow:none;filter:drop-shadow(0 6px 30px rgba(0,0,0,.65))}
+.hero-title .title-small{font-size:.4em;letter-spacing:.32em;line-height:1.1;margin-bottom:.16em;transform:translateX(.16em)}
+.manifesto-title{letter-spacing:-.018em;line-height:1.04}
+.projects-title{letter-spacing:-.015em;line-height:1}
+.project-name{letter-spacing:-.01em}
+.dialog-body h2{letter-spacing:-.015em}
+.closing-title{font-size:clamp(62px,11.5vw,200px);letter-spacing:.06em;line-height:.95;transform:translateX(.03em)}
+.closing-title em{font-size:.3em;letter-spacing:.01em;line-height:1.3;margin-top:.45em;color:#b9b4a9}
+.content::before{display:none}
+.hero-title,.manifesto-title,.projects-title,.project-name,.project-num,.closing-title,.dialog-body h2,.sealed-intro .whisper{font-optical-sizing:none;font-variation-settings:"opsz" 22}
+/* cards: sigil gets its own row instead of sitting under the name */
+.project-card .project-glyph{position:relative;top:auto;right:auto;align-self:flex-end;width:clamp(104px,10vw,160px);max-height:none;margin:22px 2% 6px auto}
+.project-card:hover .project-glyph{transform:scale(1.05) rotate(9deg)}
+.project-bottom{max-width:100%}
+.project-status{color:#c9a9a3}
+.project-status::before{background:var(--blood);box-shadow:0 0 10px var(--blood-glow)}
+.project-desc{min-height:0}
+.redacted{color:transparent;background:linear-gradient(90deg,#1c1c1b,#272725 50%,#1c1c1b) no-repeat right/100% 100%;-webkit-box-decoration-break:clone;box-decoration-break:clone;padding:0 .15em;transition:background-size .7s cubic-bezier(.7,0,.2,1),color .5s .25s;user-select:none}
+.project-card:hover .redacted,.project-card:focus-visible .redacted{background-size:0 100%;color:#b5b0a5;user-select:text}
+.project-stamp{position:absolute;z-index:3;right:clamp(22px,3vw,44px);bottom:clamp(28px,3vw,48px);padding:5px 11px;border:1px solid var(--blood);color:var(--blood);font-size:9px;font-weight:700;letter-spacing:.32em;transform:rotate(-8deg);opacity:.62;pointer-events:none;transition:opacity .4s,transform .4s}
+.project-card:hover .project-stamp{opacity:.9;transform:rotate(-4deg) scale(1.04)}
+/* hero classified tag */
+.hero-classified{position:absolute;z-index:6;left:clamp(24px,4.3vw,76px);bottom:38px;display:grid;gap:7px;font-size:10px;letter-spacing:.28em;color:#d8d3ca;opacity:calc(.3 + var(--img-opacity) * .7)}
+.hero-classified b{display:flex;align-items:center;gap:10px;font-weight:600}
+.hero-classified b::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--blood);box-shadow:0 0 12px var(--blood-glow);animation:status-breathe 2.4s ease-in-out infinite}
+.hero-classified span{font-size:8.5px;color:#6f6d67;letter-spacing:.3em;padding-left:16px}
+/* dialog */
+.dialog-status .status-dot{background:var(--blood);box-shadow:0 0 11px var(--blood-glow)}
+#dialog-description{font-variant-ligatures:none}
+/* closing seal */
+.wax-seal{display:block;width:118px;height:118px;margin:46px auto 0;color:var(--blood);transform:rotate(-14deg);opacity:.85;filter:drop-shadow(0 0 22px rgba(155,44,44,.25))}
+.wax-seal .ring{transform-origin:60px 60px;animation:seal-turn 60s linear infinite}
+.back-to-top{margin-top:52px}
+@media (max-width:900px){.hero-classified{display:none}.hero-title{font-size:14.5vw}}
+@media (max-width:640px){.hero-title{font-size:15.2vw}.hero-title .title-small{font-size:.48em}.closing-title{font-size:15vw}.project-card .project-glyph{width:112px;margin-top:14px}.project-name{font-size:58px}.manifesto-floor span:last-child{text-align:right}.scroll-cue{bottom:76px}.hero-count{bottom:30px}}
+@media(prefers-reduced-motion:reduce){.wax-seal .ring,.hero-classified b::before{animation:none!important}.redacted{transition:none}}
 </style>
 </head>
 <body id="top">
@@ -184,6 +234,7 @@ button{font:inherit}
    <div class="hero-corners" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
    <div class="hero-grain"></div>
    <div class="scroll-cue" aria-hidden="true"><span>SCROLL TO UNSEAL</span><i class="scroll-track"></i></div>
+   <div class="hero-classified" aria-hidden="true"><b>CLASSIFIED · CIRCLE III</b><span>DOSSIER 072-Σ · EYES ONLY</span></div>
    <div class="hero-count" aria-hidden="true"><span>ENTITY</span><span class="divider"></span><b><span id="seal-counter">000</span> / 072</b></div>
  </div>
 </section>
@@ -199,34 +250,35 @@ button{font:inherit}
   <section class="projects" id="projects" aria-labelledby="projects-heading">
     <div class="projects-top">
       <div><div class="section-kicker reveal">II — THE ENTITIES</div><h2 class="projects-title reveal" id="projects-heading">The order.</h2></div>
-      <p class="projects-sub reveal">Each name has a purpose. Every entity is still waiting to be summoned.</p>
+      <p class="projects-sub reveal">Each name has a purpose. Their purposes are not yet yours to know.</p>
     </div>
     <!-- APP CARDS: Generated automatically from the APPS array near the end of this file. -->
     <div class="project-grid" id="project-grid" aria-live="off"></div>
-    <div class="project-footnote reveal"><span><span id="app-total">02</span> ENTITIES RECORDED · ALL COMING SOON</span><span>THE GRIMOIRE IS NOT COMPLETE.</span></div>
+    <div class="project-footnote reveal"><span><span id="app-total">02</span> ENTITIES ON FILE · ALL SEALED</span><span>THE GRIMOIRE IS NOT COMPLETE.</span></div>
   </section>
 </section>
 <section class="closing" id="closing">
   <div class="closing-inner">
     <div class="closing-kicker reveal">III — THE PROPHECY</div>
-    <h2 class="closing-title reveal">COMING<em>sooooooon...</em></h2>
-    <p class="closing-copy reveal">Nothing has been released. Everything is in motion.<br>The first invocation is coming.</p>
+    <h2 class="closing-title reveal">COMING<em>when the seal breaks.</em></h2>
+    <p class="closing-copy reveal">Nothing has been released. Everything is already in motion.<br>Those who are meant to find us, will.</p>
+    <svg class="wax-seal reveal" viewBox="0 0 120 120" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="60" cy="60" r="56" stroke-width="1.4"/><g class="ring"><circle cx="60" cy="60" r="48" stroke-width=".8" stroke-dasharray="2 3.5"/></g><path d="M60 30 L63 56 L88 60 L63 64 L60 90 L57 64 L32 60 L57 56Z" fill="currentColor" stroke="none" opacity=".9"/><circle cx="60" cy="60" r="20" stroke-width=".8" opacity=".6"/></svg>
     <a class="back-to-top reveal" href="#top"><span>BACK TO THE BEGINNING</span><span class="up" aria-hidden="true">↑</span></a>
   </div>
 </section>
 </main>
 <dialog class="entity-dialog" id="entity-dialog" aria-labelledby="dialog-title" aria-describedby="dialog-description">
-  <div class="dialog-head"><span>ARCHIVE / <span id="dialog-number">001</span></span><button class="dialog-close" id="dialog-close" type="button" aria-label="Close entity details">×</button></div>
+  <div class="dialog-head"><span>ARCHIVE / <span id="dialog-number">001</span> · DECLASSIFIED EXCERPT</span><button class="dialog-close" id="dialog-close" type="button" aria-label="Close entity details">×</button></div>
   <div class="dialog-glyph" id="dialog-glyph" aria-hidden="true"></div>
   <div class="dialog-body">
     <p class="dialog-eyebrow" id="dialog-role">COMMAND</p>
     <h2 id="dialog-title">Solomon</h2>
     <p id="dialog-description"></p>
-    <div class="dialog-status"><span class="status-dot"></span>COMING SOON <span class="dialog-status-end">NOT YET SUMMONED</span></div>
+    <div class="dialog-status"><span class="status-dot"></span>SEALED <span class="dialog-status-end">CLEARANCE · CIRCLE III</span></div>
   </div>
   <button class="dialog-return" id="dialog-return" type="button">← RETURN TO THE ORDER</button>
 </dialog>
-<footer class="footer"><span>© <span id="year">2026</span> ARS GOETICA</span><span>CRAFTED IN THE SHADOWS. BUILT IN THE OPEN.</span></footer>
+<footer class="footer"><span>© <span id="year">2026</span> ARS GOETICA</span><span>DO NOT DISTRIBUTE · CRAFTED IN THE SHADOWS. BUILT IN THE OPEN.</span></footer>
 <script src="assets/sigil.js"></script>
 <script>
 (()=>{
@@ -257,6 +309,22 @@ button{font:inherit}
   const clamp = (v,a=0,b=1) => Math.min(b,Math.max(a,v));
   const smooth = (a,b,x) => { const t=clamp((x-a)/(b-a));return t*t*(3-2*t) };
   document.getElementById('year').textContent = new Date().getFullYear();
+  const head=document.querySelector('.site-head');
+
+  // Rune-decode: text resolves left to right out of Elder Futhark noise.
+  const RUNES='ᚠᚢᚦᚨᚱᚲᚷᚹᚺᚾᛁᛃᛇᛈᛉᛊᛏᛒᛖᛗᛚᛜᛞᛟ';
+  function decode(el,dur=900){
+    const final=el.dataset.final||(el.dataset.final=el.textContent);
+    if(reduced.matches){el.textContent=final;return}
+    const t0=performance.now(),chars=[...final];
+    const step=now=>{
+      const k=clamp((now-t0)/dur),n=Math.floor(chars.length*k);
+      el.textContent=chars.slice(0,n).join('')+chars.slice(n).map(c=>c===' '?' ':RUNES[Math.random()*RUNES.length|0]).join('');
+      if(k<1)requestAnimationFrame(step);else el.textContent=final;
+    };
+    requestAnimationFrame(step);
+  }
+  try{console.log('%cDOSSIER 072-Σ%c\nGSV LIWVI RH ZHHVNYORMT. HKVZP GSV MZNV, ZMW RG DROO ZMHDVI.','color:#9b2c2c;font:700 12px Inter,sans-serif;letter-spacing:.3em','color:#c5c0b8;font:12px monospace')}catch(e){}
 
   // Escape user-editable text before inserting into dynamic HTML.
   const escapeHtml=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -267,10 +335,11 @@ button{font:inherit}
   }));
 
   // All app statuses are deliberately hardcoded to COMING SOON.
-  grid.innerHTML=apps.map((app,i)=>`<button type="button" class="project-card reveal" data-app-index="${i}" aria-label="Inspect ${escapeHtml(app.name)} — coming soon" style="transition-delay:${(i%2)*0.09}s">
-    <span class="project-meta"><span>${String(app.index).padStart(2,'0')} / ${escapeHtml(app.type.toUpperCase())}</span><span class="project-status">COMING SOON</span></span>
+  grid.innerHTML=apps.map((app,i)=>`<button type="button" class="project-card reveal" data-app-index="${i}" aria-label="Request the ${escapeHtml(app.name)} file — sealed" style="transition-delay:${(i%2)*0.09}s">
+    <span class="project-meta"><span>${String(app.index).padStart(2,'0')} / ${escapeHtml(app.type.toUpperCase())}</span><span class="project-status">SEALED</span></span>
     <span class="project-glyph">${app.glyph}</span>
-    <span class="project-bottom"><span class="project-num">Entity ${String(app.index).padStart(3,'0')} / 072</span><span class="project-name" role="heading" aria-level="3">${escapeHtml(app.name)}</span><span class="project-desc" style="display:block">${escapeHtml(app.description)}</span><span class="project-more">INSPECT ENTITY <i aria-hidden="true">↗</i></span></span>
+    <span class="project-bottom"><span class="project-num">Entity ${String(app.index).padStart(3,'0')} / 072</span><span class="project-name" role="heading" aria-level="3">${escapeHtml(app.name)}</span><span class="project-desc" style="display:block"><span class="redacted">${escapeHtml(app.description)}</span></span><span class="project-more">REQUEST FILE <i aria-hidden="true">↗</i></span></span>
+    <span class="project-stamp" aria-hidden="true">SEALED</span>
   </button>`).join('');
   document.getElementById('app-total').textContent=String(apps.length).padStart(2,'0');
 
@@ -279,9 +348,10 @@ button{font:inherit}
     document.getElementById('dialog-number').textContent=String(app.index).padStart(3,'0');
     document.getElementById('dialog-title').textContent=app.name;
     document.getElementById('dialog-role').textContent=app.type.toUpperCase()+' / ENTITY '+String(app.index).padStart(3,'0');
-    document.getElementById('dialog-description').textContent=app.description;
+    const desc=document.getElementById('dialog-description');desc.dataset.final=app.description;desc.textContent=app.description;
     document.getElementById('dialog-glyph').innerHTML=app.glyph;
     if(typeof dialog.showModal==='function') dialog.showModal(); else dialog.setAttribute('open','');
+    decode(desc,1100);
   }
   function closeEntity(){if(typeof dialog.close==='function')dialog.close();else dialog.removeAttribute('open')}
   grid.addEventListener('click',e=>{
@@ -342,6 +412,7 @@ button{font:inherit}
       root.style.setProperty('--cue-opacity',(1-smooth(.02,.24,p)).toFixed(3));
     }
     document.getElementById('seal-counter').textContent=String(Math.round(p*72)).padStart(3,'0');
+    head.classList.toggle('is-scrolled',stage.getBoundingClientRect().bottom<innerHeight+2);
     const scrollable=Math.max(1,document.documentElement.scrollHeight-innerHeight);
     meter.style.width=`${(clamp(scrollY/scrollable)*100).toFixed(2)}%`;
   }
@@ -367,7 +438,7 @@ button{font:inherit}
   const elements=[...document.querySelectorAll('.reveal')];
   if('IntersectionObserver' in window){
     const observer=new IntersectionObserver(entries=>{
-      for(const entry of entries){if(entry.isIntersecting){entry.target.classList.add('in-view');observer.unobserve(entry.target)}}
+      for(const entry of entries){if(entry.isIntersecting){entry.target.classList.add('in-view');if(entry.target.matches('.section-kicker,.closing-kicker'))decode(entry.target,1000);observer.unobserve(entry.target)}}
     },{threshold:.08,rootMargin:'0px 0px -15px 0px'});
     elements.forEach(el=>observer.observe(el));
   }else{elements.forEach(el=>el.classList.add('in-view'))}
