@@ -31,7 +31,20 @@ h1{font-family:var(--font-display);font-weight:400;font-size:clamp(40px,6vw,76px
 .stage::before{content:"";position:absolute;inset:8%;border-radius:50%;background:radial-gradient(circle,rgba(211,193,150,.10),transparent 68%);filter:blur(8px)}
 .sigil{position:relative;width:100%;height:100%;color:var(--gold);transition:opacity .25s ease;filter:drop-shadow(0 0 26px rgba(211,193,150,.16))}
 .sigil svg{width:100%;height:100%;display:block}
-.sigil svg circle,.sigil svg path,.sigil svg line{vector-effect:non-scaling-stroke}
+.sigil{--sigil-bg:#0e0d0b;animation:sigil-turn 360s linear infinite}
+.sigil .draw{stroke-dasharray:1;stroke-dashoffset:1;animation:sigil-draw 1.2s cubic-bezier(.6,0,.2,1) forwards}
+.sigil .dot{opacity:0;animation:sigil-fade .5s forwards}
+.sigil .sigil-frame .draw{animation-duration:1.5s}
+.sigil .sigil-frame .dot{animation-delay:.9s}
+.sigil .sigil-motif .draw{animation-delay:.3s}
+.sigil .sigil-motif .dot{animation-delay:1.2s}
+.sigil .sigil-inner .draw{animation-delay:.6s}
+.sigil .sigil-inner .dot{animation-delay:1.4s}
+.sigil .sigil-core .draw{animation-delay:.9s;animation-duration:.8s}
+.sigil .sigil-core .dot{animation-delay:1.5s}
+@keyframes sigil-draw{to{stroke-dashoffset:0}}
+@keyframes sigil-fade{to{opacity:1}}
+@keyframes sigil-turn{to{transform:rotate(360deg)}}
 .sigil.empty{opacity:.18}
 .stage-name{position:absolute;bottom:-6px;left:0;right:0;text-align:center;font-family:var(--font-display);font-size:clamp(18px,2.2vw,24px);letter-spacing:.08em;color:#d8d2c4;min-height:1.2em;overflow-wrap:anywhere}
 
@@ -63,7 +76,7 @@ h1{font-family:var(--font-display);font-weight:400;font-size:clamp(40px,6vw,76px
   .brand{font-size:10px;gap:10px}.brand-mark{width:25px;height:25px}
   main{min-height:0}
 }
-@media (prefers-reduced-motion:reduce){.sigil{transition:none}}
+@media (prefers-reduced-motion:reduce){.sigil,.sigil .draw,.sigil .dot{transition:none;animation:none!important;stroke-dashoffset:0}.sigil .dot{opacity:1}}
 </style>
 </head>
 <body>
@@ -81,7 +94,7 @@ h1{font-family:var(--font-display);font-weight:400;font-size:clamp(40px,6vw,76px
   <section aria-labelledby="forge-title">
     <p class="eyebrow">The Sigil Forge</p>
     <h1 id="forge-title">Every name<br>draws its seal.</h1>
-    <p class="lede">Write a name. Its letters, words and vowels shape the sigil. The same name always returns the same seal.</p>
+    <p class="lede">Write a name. Its letters set the fold, its first and last letters choose the motifs, its vowels shape every stroke ending. The same name always returns the same seal.</p>
 
     <div class="field">
       <label for="name">Name</label>
@@ -91,6 +104,7 @@ h1{font-family:var(--font-display);font-weight:400;font-size:clamp(40px,6vw,76px
     <ul class="traits" id="traits" aria-live="polite"></ul>
 
     <div class="actions">
+      <button class="btn" id="summon" type="button">Summon a random name</button>
       <button class="btn" id="download" type="button" disabled>Download SVG</button>
       <button class="btn" id="copy" type="button" disabled>Copy link</button>
       <span class="toast" id="toast" role="status"></span>
@@ -115,12 +129,12 @@ h1{font-family:var(--font-display);font-weight:400;font-size:clamp(40px,6vw,76px
 
   function rows(t) {
     return [
-      [`<b>${t.letters}</b> letters`, plural(t.spokes, 'spoke')],
-      [`<b>${esc(t.firstChar)}</b> … <b>${esc(t.lastChar)}</b>`, `${t.core} core`],
-      [`<b>${t.vowels}</b> vowels`, t.ornament === 'none' ? 'bare inner ring' : t.ornament],
-      [`<b>${t.words}</b> ${t.words === 1 ? 'word' : 'words'}`, plural(t.halos, 'halo')],
-      [`letters are <b>${t.letters % 2 ? 'odd' : 'even'}</b>`, t.allNodes ? 'node on every spoke' : 'node on every other spoke'],
-      [`name hash`, `turned ${t.rotation}°`],
+      [`<b>${t.letters}</b> letters`, `${t.fold}-fold seal`],
+      [`first letter <b>${esc(t.firstChar)}</b>`, `${t.motif}`],
+      [`last letter <b>${esc(t.lastChar)}</b>`, t.inner === 'none' ? 'open centre' : `inner ${t.inner}`],
+      [`<b>${esc(t.firstChar)}</b> + <b>${esc(t.lastChar)}</b>`, `${t.core} core`],
+      [`<b>${t.vowels}</b> vowels`, `${t.terminal} terminals`],
+      [`<b>${t.words}</b> ${t.words === 1 ? 'word' : 'words'}`, t.frame],
     ];
   }
 
@@ -164,6 +178,11 @@ h1{font-family:var(--font-display);font-weight:400;font-size:clamp(40px,6vw,76px
     catch { flash('Copy failed — use the address bar'); }
   });
 
+  const NAMES = ['Bael','Agares','Vassago','Samigina','Marbas','Valefor','Amon','Barbatos','Paimon','Buer','Gusion','Sitri','Beleth','Leraje','Eligos','Zepar','Botis','Bathin','Sallos','Purson','Marax','Ipos','Aim','Naberius','Glasya Labolas','Bune','Ronove','Berith','Astaroth','Forneus','Foras','Asmoday','Gaap','Furfur','Marchosias','Stolas','Phenex','Halphas','Malphas','Raum','Focalor','Vepar','Sabnock','Shax','Vine','Bifrons','Vual','Haagenti','Crocell','Furcas','Balam','Alloces','Camio','Murmur','Orobas','Gremory','Ose','Amy','Orias','Vapula','Zagan','Valac','Andras','Flauros','Andrealphus','Kimaris','Amdusias','Belial','Decarabia','Seere','Dantalion','Andromalius'];
+  document.getElementById('summon').addEventListener('click', () => {
+    let n; do { n = NAMES[Math.random() * NAMES.length | 0]; } while (n === input.value && NAMES.length > 1);
+    input.value = n; render();
+  });
   input.value = new URLSearchParams(location.search).get('name') || '';
   input.addEventListener('input', render);
   render();
